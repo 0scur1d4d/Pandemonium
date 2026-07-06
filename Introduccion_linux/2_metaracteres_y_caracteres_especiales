@@ -1,0 +1,392 @@
+metacarácter y caracteres especiales
+
+1. Separadores de comandos
+    ; (Punto y coma) -> Ejecuta varios comandos uno tras otro, sin importar si el anterior falló.
+                pwd; ls; whoami
+
+        Resultado:
+                /home/radm
+                Desktop Documents
+                radm
+
+        Aunque pwd falle (casi imposible), ls igualmente se ejecutará.
+
+    &&  -> Ejecuta el siguiente comando solo si el anterior tuvo éxito.
+        
+        Resultado:        
+                mkdir prueba && cd prueba
+
+            Si mkdir falla:
+                mkdir: cannot create directory
+
+        No ejecutará:
+            cd prueba
+
+    ||  -> Ejecuta el siguiente comando solo si el anterior falla.
+
+        Resultado:
+                cd carpeta || echo "No existe"
+
+                Si la carpeta no existe:
+                    No existe
+
+    &  -> Ejecuta un proceso en segundo plano.
+        
+        Resultado:
+                firefox &
+
+            La terminal queda libre inmediatamente.
+            Puedes verlo con
+                jobs
+
+2. Pipes
+    
+    |  -> Envía la salida de un comando como entrada del siguiente.
+            Ejemplo:
+                cat archivo.txt | grep admin
+            Sin pipe:
+                cat
+                    ↓
+                pantalla
+            Con pipe:
+                cat
+                    ↓
+                grep
+                    ↓
+                pantalla
+
+            Otro ejemplo
+                ps aux | grep apache
+
+    |&  -> Envía tanto stdout como stderr.
+            Normalmente:
+                comando | grep error
+            solo manda stdout.
+                Con
+                comando |& grep error
+                    manda
+                        stdout
+                        +
+                        stderr
+
+3. Redirecciones
+
+    >  -> Sobrescribe un archivo.
+        Resultado:
+                echo hola > archivo.txt
+            archivo.txt
+                hola
+            Si ya tenía contenido:
+                TODO se pierde
+
+    >>  -> Agrega al final.
+        Resultado:
+            echo mundo >> archivo.txt
+        Resultado:
+            hola
+            mundo
+
+    <  -> Usa un archivo como entrada.
+                sort < nombres.txt
+            Es equivalente a
+                cat nombres.txt | sort
+            aunque más eficiente.
+
+    <<  -> Here Document.
+            Permite escribir varias líneas.
+                cat << EOF
+                hola
+                mundo
+                EOF
+            Salida
+                hola
+                mundo
+            Muy usado en scripts.
+
+    <<<  -> Here String.
+                grep hola <<< "hola mundo"
+            Salida
+                hola mundo
+
+    2>  -> Redirige errores.
+                ls carpeta_inexistente 2> errores.txt
+
+    2>>  -> Agrega errores.
+                comando 2>> errores.log
+
+    1>  -> Redirige stdout.
+                echo hola 1> salida.txt
+
+    &>  -> Redirige stdout y stderr.
+                comando &> todo.log
+
+    2>&1  -> Une stderr con stdout.
+        Muy común:
+            comando > salida.txt 2>&1
+        Todo termina en
+            salida.txt
+
+    /dev/null  -> No es un metacarácter, pero se usa constantemente.
+            Descarta información.
+                ls inexistente 2>/dev/null
+
+4. Comodines (Wildcards)
+
+    *  -> Representa cualquier cantidad de caracteres.
+                *.txt
+            Coincide con
+                a.txt
+                archivo.txt
+                prueba.txt
+
+    ?  -> Un solo carácter.
+                a?.txt
+            Coincide
+                ab.txt
+                ac.txt
+            No
+                archivo.txt
+    
+    [ ]  -> Conjunto.
+                archivo[123].txt
+            Coincide
+                archivo1.txt
+                archivo2.txt
+                archivo3.txt
+
+    [a-z]  -> Rango.
+                [a-z]*
+            Todos los archivos que comienzan con letras minúsculas.
+
+    [^ ]  -> Negación.
+                [^0-9]*
+            No empiezan con números.
+
+5. Expansión de llaves
+
+    {}  -> Genera combinaciones.
+            echo archivo{1,2,3}
+        Resultado
+                archivo1 archivo2 archivo3
+            touch prueba{1..10}.txt
+                Crea
+                    prueba1.txt
+                    ...
+                    prueba10.txt
+                También
+                    mkdir {img,docs,videos}
+
+6. Variables
+
+    $  -> Accede a variables.
+                echo $HOME
+                echo $USER
+                echo $PATH
+
+    ${}  -> Forma avanzada.
+                echo ${HOME}
+            También permite:
+                ${variable:-valor}
+
+7. Sustitución de comandos
+
+    $( )  -> Ejecuta un comando.
+                echo $(date)
+            Salida
+                Sat Jul ...
+            Muy usado.
+    
+    ` `  -> Forma antigua.
+                echo `date`
+
+Funciona igual.
+
+8. Sustitución aritmética
+
+    $(( ))  -> Operaciones matemáticas.
+                echo $((5+8))
+        Resultado
+            13
+                También
+                    echo $((10*30))
+
+9. Agrupaciones
+
+    ( )  -> Ejecuta en un subshell.
+                    (cd /tmp; ls)
+                Al terminar vuelve al directorio anterior.
+
+    { }  -> Agrupa comandos en el shell actual.
+                    {
+                    echo hola
+                    echo mundo
+                    }
+
+10. Comentarios
+
+    #  -> Todo lo que sigue se ignora.
+                    ls
+                    # esto no se ejecuta
+                    pwd
+
+11. Escape
+
+    \  -> Evita la interpretación.
+                echo \$HOME
+        Resultado
+                $HOME
+            También
+                touch archivo\ con\ espacios.txt
+
+12. Comillas
+
+    '  -> Comilla simple.
+            Nada se expande.
+                echo '$HOME'
+        Resultado
+            $HOME
+    
+    "  -> Permite expansión.
+                echo "$HOME"
+        Resultado
+                /home/radm
+
+13. Expansión del historial
+
+    !  -> Últimos comandos.
+                !!
+            Repite el anterior.
+                !50
+            Ejecuta el comando número 50.
+                !grep
+            Último comando que comenzó por grep.
+
+14. Tilde
+
+    ~  -> Representa el HOME.
+                cd ~
+            Equivale a
+                cd /home/radm
+
+15. Punto
+
+    .  -> Directorio actual.
+                ./script.sh
+            También
+                source archivo
+            equivale a
+                . archivo
+
+16. Doble punto
+
+    ..  -> Directorio padre.
+                cd ..
+
+17. Triple punto
+
+No existe oficialmente en Bash.
+Algunas herramientas (como Git) lo interpretan con un significado propio, pero ... no es un metacarácter del shell.
+
+18. Asterisco doble
+    
+    **  -> Solo funciona cuando está habilitado globstar en Bash:
+                shopt -s globstar
+            Entonces:
+                ls **/*.txt
+            Busca recursivamente todos los .txt.
+
+19. Corchetes dobles
+
+    [[ ]]  -> Pruebas avanzadas.
+                [[ -f archivo.txt ]]
+                [[ $x -gt 10 ]]
+
+20. Corchetes simples
+
+    [ ]  -> Versión antigua de test.
+                [ -f archivo ]
+
+21. Paréntesis dobles
+
+    (( ))  -> Aritmética.
+                ((x++))
+                ((a>b))
+
+22. Operadores de archivos
+
+    Dentro de [ ] o [[ ]]:
+        Operador	Significado
+            -f	    Existe y es archivo
+            -d	    Directorio
+            -e	    Existe
+            -r	    Lectura
+            -w	    Escritura
+            -x	    Ejecutable
+            -s	    No está vacío
+            -L	    Enlace simbólico
+        Ejemplo:
+            [[ -x script.sh ]]
+            
+23. Operadores numéricos
+
+        Operador	Significado
+            -eq	    Igual
+            -ne	    Distinto
+            -gt	    Mayor
+            -lt	    Menor
+            -ge	    Mayor o igual
+            -le 	Menor o igual
+
+24. Operadores de cadenas
+
+        Operador	Significado
+            =	    Igual
+            !=	    Diferente
+            -z	    Cadena vacía
+            -n	    No vacía
+
+25. Expansiones útiles
+
+    *  -> Todos los archivos.
+
+    .*  -> Archivos ocultos.
+
+    {A..Z}  -> Letras.
+
+    {1..100}  -> Números.
+
+Resumen rápido
+        Símbolo	    Función principal
+        ;	        Ejecutar comandos consecutivos
+        &&	        Ejecutar si el anterior tuvo éxito
+        `	
+        &	        Ejecutar en segundo plano
+        `	        `
+        >	        Sobrescribir archivo
+        >>	        Agregar al final de un archivo
+        <	        Leer entrada desde un archivo
+        <<	        Here Document
+        <<<     	Here String
+        2>	        Redirigir errores
+        &>	        Redirigir stdout y stderr
+        *	        Cualquier cantidad de caracteres
+        ?	        Un solo carácter
+        [ ]	        Conjuntos o pruebas
+        { }	        Expansión de llaves o agrupación de comandos
+        $	        Variables
+        $( )	    Sustitución de comandos
+        $(( ))	    Operaciones aritméticas
+        ( )	        Subshell
+        #	        Comentario
+        \	        Escape
+        '	        Comillas literales
+        "	        Comillas con expansión
+        !	        Historial
+        ~	        Directorio personal
+        .	        Directorio actual o source
+        ..	        Directorio padre
+        [[ ]]	    Pruebas avanzadas
+        (( ))	    Expresiones aritméticas
+
+paginas de metacarácter y caracteres especiales  (https://www.makeuseof.com/what-are-linux-metacharacters/)
+                                                 (https://medium.com/enredando-con-linux/linux-shell-caracteres-especiales-y-metacaracteres-c6c8307f37d1)

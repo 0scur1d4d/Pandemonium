@@ -1,0 +1,281 @@
+1. Descriptores de archivos (File Descriptors)
+
+    Linux asigna números a las entradas y salidas:
+        Descriptor	    Significado
+        0	            stdin (entrada estándar)
+        1	            stdout (salida estándar)
+        2	            stderr (errores)
+        3-9	            Descriptores adicionales
+            Ejemplo:
+                comando 1>salida.txt
+                comando 2>errores.txt
+                comando 2>&1
+
+2. Cerrar un descriptor
+
+        exec 3>&-
+        Cierra el descriptor 3.
+
+3. Abrir un descriptor
+
+        exec 3<archivo.txt
+        Ahora el descriptor 3 apunta al archivo.
+
+4. Leer desde otro descriptor
+
+        read linea <&3
+
+5. Escribir a otro descriptor
+
+        echo hola >&3
+
+6. Proceso sustitución
+
+        Muy usada.
+                <(comando)
+            Ejemplo
+                diff <(ls carpeta1) <(ls carpeta2)
+        Bash crea archivos temporales virtuales.
+            También existe
+                >(comando)
+            Ejemplo
+                echo hola > >(grep hola)
+
+7. Coprocess
+
+                    coproc
+            Ejemplo
+                    coproc grep hola
+                Permite comunicación bidireccional.
+
+8. Expansión de parámetros
+
+            Longitud
+                ${#variable}
+            Ejemplo
+                nombre=radm
+                echo ${#nombre}
+                Resultado
+                    4
+            Valor por defecto
+                    ${variable:-valor}
+            Asignar si está vacía
+                    ${variable:=valor}
+            Error si está vacía
+                    ${variable:?Error}
+            Valor alternativo
+                    ${variable:+nuevo}
+
+9. Eliminar parte de una cadena
+
+        Eliminar desde el inicio
+            ${var#patron}
+        Eliminar más largo
+            ${var##patron}
+        Eliminar desde el final
+            ${var%patron}
+        Eliminar más largo
+            ${var%%patron}
+
+10. Reemplazar texto
+
+${var/patron/nuevo}
+
+Reemplazar todas
+
+${var//patron/nuevo}
+11. Subcadena
+${var:2:5}
+12. Mayúsculas y minúsculas
+
+Todo a mayúsculas
+
+${var^^}
+
+Todo a minúsculas
+
+${var,,}
+13. Arrays
+
+Elemento
+
+${array[0]}
+
+Todos
+
+${array[@]}
+
+Índices
+
+${!array[@]}
+
+Cantidad
+
+${#array[@]}
+14. Variables especiales
+Variable	Significado
+$?	Código de salida del último comando
+$$	PID del shell
+$!	PID del último proceso en segundo plano
+$0	Nombre del script
+$1	Primer argumento
+$2	Segundo argumento
+$@	Todos los argumentos (preservando cada uno)
+$*	Todos los argumentos (como una sola cadena según el separador)
+$#	Número de argumentos
+$_	Último argumento del comando anterior
+
+Ejemplo
+
+echo $?
+15. Operadores lógicos dentro de [[ ]]
+
+Coincidencia
+
+==
+
+!=
+
+=~
+
+Regex
+
+[[ $texto =~ ^admin ]]
+16. Operadores bit a bit
+&
+
+|
+
+^
+
+~
+
+<<
+
+>>
+
+Ejemplo
+
+((5 & 3))
+17. Operadores matemáticos
++
+
+-
+
+*
+
+/
+
+%
+
+**
+
+
+Potencia
+
+((2**10))
+18. Incremento
+++
+
+--
+19. Asignaciones
++=
+
+-=
+
+*=
+
+/=
+
+%=
+
+20. Operador coma
+((a=1,b=2,c=3))
+21. Operador ternario
+((a>b ? a : b))
+22. Expansión del historial
+!$
+
+
+Último argumento.
+
+!^
+
+
+Primer argumento.
+
+!:2
+
+
+Segundo argumento.
+
+!*
+
+
+Todos los argumentos.
+
+!$
+
+
+Muy usada.
+
+23. Glob extendido
+
+Se habilita con
+
+shopt -s extglob
+
+Luego puedes usar:
+
+?(patron)
+
+Cero o una coincidencia.
+
+*(patron)
+
+Cero o más.
+
++(patron)
+
+Una o más.
+
+@(patron)
+
+Exactamente una alternativa.
+
+!(patron)
+
+Todo excepto el patrón.
+
+24. Expansión de nombres
+~
+~usuario
+
+Ir al directorio personal de otro usuario (si existe y tienes permisos).
+
+25. Comillas ANSI-C
+$'texto'
+
+Permite secuencias de escape.
+
+echo $'Hola\nMundo'
+26. Traducción de cadenas
+$"texto"
+
+Se usa para internacionalización (i18n) en scripts.
+
+27. Escape hexadecimal
+\x41
+28. Escape Unicode
+\u2764
+
+❤
+
+29. Escape octal
+\101
+30. Separador de opciones
+--
+
+Ejemplo:
+
+rm -- -archivo
