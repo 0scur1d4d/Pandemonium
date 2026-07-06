@@ -1,0 +1,56 @@
+Link de comandos de linux (https://wiki.ubuntu.com/ElSalvadorTeam/eventos?action=AttachFile&do=get&target=chuleta1.pdf)
+
+Comandos de linux
+
+ls -- el comando más utilizado en Linux para enumerar directorios
+pwd -- Imprimir comando de directorio de trabajo en Linux
+cd -- Comando de Linux para navegar por directorios
+mkdir -- Comando utilizado para crear directorios en Linux
+mv -- Mover o cambiar el nombre de archivos en Linux
+cp -- Uso similar a mv pero para copiar archivos en Linux
+rm -- Eliminar archivos o directorios
+touch -- Crear archivos en blanco/vacíos
+ln -- Crea enlaces simbólicos (atajos) a otros archivos
+clear -- Borrar la pantalla del terminal
+cat -- Muestra el contenido del archivo en el terminal
+echo -- Imprime cualquier texto que siga al comando
+less -- Comando de Linux para mostrar salidas paginadas en la terminal
+man -- Acceda a las páginas del manual de todos los comandos de Linux
+uname -- Comando de Linux para obtener información básica sobre el sistema operativo
+whoami -- Obtener el nombre de usuario activo
+tar -- Comando para extraer y comprimir archivos en Linux
+grep -- Busca una cadena dentro de una salida
+head -- Devuelve el número especificado de líneas desde arriba
+tail -- devuelve el número especificado de líneas desde abajo
+diff -- Encuentra la diferencia entre dos archivos
+cmp -- Le permite comprobar si dos archivos son idénticos
+comm -- Combina la funcionalidad de diff y cmp
+sort -- comando de Linux para ordenar el contenido de un archivo durante la salida
+export -- Exportar variables de entorno en Linux
+zip -- Archivos Zip en Linux
+unzip -- Descomprimir archivos en Linux
+ssh -- Comando Secure Shell en Linux
+service -- comando de Linux para iniciar y detener servicios
+ps -- Mostrar procesos activos
+kill and killall -- elimina procesos activos por ID o nombre de proceso
+df -- Muestra información del sistema de archivos del disco
+mount -- Montar sistemas de archivos en Linux
+chmod -- Comando para cambiar los permisos de archivos
+chown -- Comando para otorgar propiedad de archivos o carpetas
+ifconfig -- Muestra interfaces de red y direcciones IP
+traceroute -- rastrea todos los saltos de la red para llegar al destino
+wget -- Descarga directa de archivos desde Internet
+ufw -- Comando de firewall
+iptables -- firewall base con el que pueden interactuar todas las demás utilidades de firewall
+apt, pacman, yum, rpm -- Administradores de paquetes según la distribución
+sudo -- Comando para escalar privilegios en Linux
+cal -- Ver un calendario de línea de comandos
+alias -- crea atajos personalizados para tus comandos utilizados habitualmente
+dd -- se utiliza principalmente para crear memorias USB de arranque
+whereis -- Localice las páginas binarias, de origen y del manual de un comando
+whatis -- Encuentra para qué se utiliza un comando
+top -- Ver procesos activos en vivo con el uso de su sistema
+useradd y usermod -- agregar un nuevo usuario o cambiar datos de usuario existentes
+passwd -- crea o actualiza contraseñas para usuarios existentes
+
+pagina de comandos linux (https://www.digitalocean.com/community/tutorials/linux-commands)
