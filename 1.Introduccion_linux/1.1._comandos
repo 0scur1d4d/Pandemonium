@@ -19,7 +19,7 @@ man -- Acceda a las páginas del manual de todos los comandos de Linux
 uname -- Comando de Linux para obtener información básica sobre el sistema operativo
 whoami -- Obtener el nombre de usuario activo
 tar -- Comando para extraer y comprimir archivos en Linux
-grep -- Busca una cadena dentro de una salida
+grep -- Busca una cadena dentro de una salida (filtra)
 head -- Devuelve el número especificado de líneas desde arriba
 tail -- devuelve el número especificado de líneas desde abajo
 diff -- Encuentra la diferencia entre dos archivos
