@@ -1,4 +1,8 @@
 Link de comandos de linux (https://wiki.ubuntu.com/ElSalvadorTeam/eventos?action=AttachFile&do=get&target=chuleta1.pdf)
+                          (https://www.digitalocean.com/community/tutorials/linux-commands)
+                          (https://www.fing.edu.uy/inco/cursos/sistoper/recursosLaboratorio/tutorial0.pdf)
+                          (https://www.stackscale.com/es/blog/comandos-linux/)
+                          (https://www.osc.edu/content/linux-command-line-fundamentals)
 
 Comandos de linux
 
@@ -11,6 +15,8 @@ cp -- Uso similar a mv pero para copiar archivos en Linux
 rm -- Eliminar archivos o directorios
 touch -- Crear archivos en blanco/vacíos
 ln -- Crea enlaces simbólicos (atajos) a otros archivos
+which -- El comando which se usa para identificar la ruta de un ejecutable en concreto. Sintaxis: [which [-opción] nombre_del_archivo]
+command -v -- Cumple la misma funcion que which
 clear -- Borrar la pantalla del terminal
 cat -- Muestra el contenido del archivo en el terminal
 echo -- Imprime cualquier texto que siga al comando
@@ -52,5 +58,3 @@ whatis -- Encuentra para qué se utiliza un comando
 top -- Ver procesos activos en vivo con el uso de su sistema
 useradd y usermod -- agregar un nuevo usuario o cambiar datos de usuario existentes
 passwd -- crea o actualiza contraseñas para usuarios existentes
-
-pagina de comandos linux (https://www.digitalocean.com/community/tutorials/linux-commands)

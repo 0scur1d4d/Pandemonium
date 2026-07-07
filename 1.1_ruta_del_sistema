@@ -2,4 +2,5 @@ ruta del sistema de los grupos
 /etc/group  -> esta ruta es un directorio. si aplicamos un cat a esta ruta podremos visualizar su contenido.
             -> ejemplo  [cat /etc/group]
             -> nota: root:x:0: el numero al final es un identificador del grupo al que pertenece
-            
+
+>bash -> si ingresas este comando cambias de shell en tu directorio de trabajo actual
