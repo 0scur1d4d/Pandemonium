@@ -79,203 +79,161 @@
 
 10. Reemplazar texto
 
-${var/patron/nuevo}
+            ${var/patron/nuevo}
+        Reemplazar todas
+            ${var//patron/nuevo}
 
-Reemplazar todas
-
-${var//patron/nuevo}
 11. Subcadena
-${var:2:5}
+
+            ${var:2:5}
+
 12. Mayúsculas y minúsculas
 
-Todo a mayúsculas
+        Todo a mayúsculas
+            ${var^^}
+        Todo a minúsculas
+            ${var,,}
 
-${var^^}
-
-Todo a minúsculas
-
-${var,,}
 13. Arrays
 
-Elemento
+        Elemento
+            ${array[0]}
+        Todos
+            ${array[@]}
+        Índices
+            ${!array[@]}
+        Cantidad
+            ${#array[@]}
 
-${array[0]}
-
-Todos
-
-${array[@]}
-
-Índices
-
-${!array[@]}
-
-Cantidad
-
-${#array[@]}
 14. Variables especiales
-Variable	Significado
-$?	Código de salida del último comando
-$$	PID del shell
-$!	PID del último proceso en segundo plano
-$0	Nombre del script
-$1	Primer argumento
-$2	Segundo argumento
-$@	Todos los argumentos (preservando cada uno)
-$*	Todos los argumentos (como una sola cadena según el separador)
-$#	Número de argumentos
-$_	Último argumento del comando anterior
 
-Ejemplo
+        Variable	        Significado
+        $?	                Código de salida del último comando
+        $$	                PID del shell
+        $!	                PID del último proceso en segundo plano
+        $0	                Nombre del script
+        $1	                Primer argumento
+        $2	                Segundo argumento
+        $@	                Todos los argumentos (preservando cada uno)
+        $*	                Todos los argumentos (como una sola cadena según el separador)
+        $#	                Número de argumentos
+        $_	                Último argumento del comando anterior
+        
+        Ejemplo
+            echo $?
 
-echo $?
 15. Operadores lógicos dentro de [[ ]]
 
-Coincidencia
+        Coincidencia
+            ==
+            !=
+            =~
+        Regex
+            [[ $texto =~ ^admin ]]
 
-==
-
-!=
-
-=~
-
-Regex
-
-[[ $texto =~ ^admin ]]
 16. Operadores bit a bit
-&
 
-|
+            &
+            |
+            ^
+            ~
+            <<
+            >>
+        Ejemplo
+            ((5 & 3))
 
-^
-
-~
-
-<<
-
->>
-
-Ejemplo
-
-((5 & 3))
 17. Operadores matemáticos
-+
 
--
+            +
+            -
+            *
+            /
+            %
+            **
+        Potencia
+            ((2**10))
 
-*
-
-/
-
-%
-
-**
-
-
-Potencia
-
-((2**10))
 18. Incremento
-++
 
---
+            ++
+            --
+
 19. Asignaciones
-+=
 
--=
-
-*=
-
-/=
-
-%=
+            +=
+            -=
+            *=
+            /=
+            %=
 
 20. Operador coma
-((a=1,b=2,c=3))
+
+            ((a=1,b=2,c=3))
+
 21. Operador ternario
-((a>b ? a : b))
+
+            ((a>b ? a : b))
+
 22. Expansión del historial
-!$
 
-
-Último argumento.
-
-!^
-
-
-Primer argumento.
-
-!:2
-
-
-Segundo argumento.
-
-!*
-
-
-Todos los argumentos.
-
-!$
-
-
-Muy usada.
+            !$
+        Último argumento.
+            !^
+        Primer argumento.
+            !:2
+        Segundo argumento.
+            !*
+        Todos los argumentos.
+            !$
+        Muy usada.
 
 23. Glob extendido
 
-Se habilita con
-
-shopt -s extglob
-
-Luego puedes usar:
-
-?(patron)
-
-Cero o una coincidencia.
-
-*(patron)
-
-Cero o más.
-
-+(patron)
-
-Una o más.
-
-@(patron)
-
-Exactamente una alternativa.
-
-!(patron)
-
-Todo excepto el patrón.
+        Se habilita con
+            shopt -s extglob
+        Luego puedes usar:
+            ?(patron)
+        Cero o una coincidencia.
+            *(patron)
+        Cero o más.
+            +(patron)
+        Una o más.
+            @(patron)
+        Exactamente una alternativa.
+            !(patron)
+        Todo excepto el patrón.
 
 24. Expansión de nombres
-~
-~usuario
 
-Ir al directorio personal de otro usuario (si existe y tienes permisos).
+            ~
+            ~usuario
+        Ir al directorio personal de otro usuario (si existe y tienes permisos).
 
 25. Comillas ANSI-C
-$'texto'
 
-Permite secuencias de escape.
+            $'texto'
+        Permite secuencias de escape.
+            echo $'Hola\nMundo'
 
-echo $'Hola\nMundo'
 26. Traducción de cadenas
-$"texto"
 
-Se usa para internacionalización (i18n) en scripts.
+            $"texto"
+        Se usa para internacionalización (i18n) en scripts.
 
 27. Escape hexadecimal
-\x41
-28. Escape Unicode
-\u2764
 
-❤
+            \x41
+
+28. Escape Unicode
+
+            \u2764
 
 29. Escape octal
-\101
+
+            \101
+
 30. Separador de opciones
---
-
-Ejemplo:
-
-rm -- -archivo
+            
+            --
+        Ejemplo:
+            rm -- -archivo

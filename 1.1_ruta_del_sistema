@@ -12,5 +12,9 @@ wireshark &>/dev/null &
                 que tiene un valor identificativo que representa y distingue a los proceso de forma inivoca, dos procesos no pueden compartir mismo PID, cada proceso tiene su PID.
 
 Para poder independizar este proceso, podemos realizarlo de la siguiente forma ejemplo:
-wireshark &>/dev/null & disown  ->(aplicamos disown al final para cuando termines de ejecutar o realizar la tarea que necesitemos podamos salir sin problemas.
-)
+wireshark &>/dev/null & disown  ->(aplicamos disown al final para cuando termines de ejecutar o realizar la tarea que necesitemos podamos salir sin problemas).
+
+DESCRIPTORES DE ARCHIVOS
+
+link de DESCRIPTORES (https://medium.com/@tharinduimalka915/linux-file-descriptors-ec945fd36893)
+

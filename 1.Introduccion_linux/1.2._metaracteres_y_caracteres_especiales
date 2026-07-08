@@ -198,8 +198,7 @@ metacarácter y caracteres especiales
     
     ` `  -> Forma antigua.
                 echo `date`
-
-Funciona igual.
+        Funciona igual.
 
 8. Sustitución aritmética
 
