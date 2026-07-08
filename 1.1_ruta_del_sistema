@@ -4,3 +4,13 @@ ruta del sistema de los grupos
             -> nota: root:x:0: el numero al final es un identificador del grupo al que pertenece
 
 >bash -> si ingresas este comando cambias de shell en tu directorio de trabajo actual
+
+redirectores
+cuando queremos ocultar el stder y el stdout realizamos de la siguiente forma ejemplo
+wireshark &>/dev/null &
+[1] 29916 -> OJO:es numero que sale es el PID, que es el numero identificativo que relaciona o hace referencia a un proceso que esta ejecutandose en el sistema, cada proceso tiene un PID
+                que tiene un valor identificativo que representa y distingue a los proceso de forma inivoca, dos procesos no pueden compartir mismo PID, cada proceso tiene su PID.
+
+Para poder independizar este proceso, podemos realizarlo de la siguiente forma ejemplo:
+wireshark &>/dev/null & disown  ->(aplicamos disown al final para cuando termines de ejecutar o realizar la tarea que necesitemos podamos salir sin problemas.
+)
