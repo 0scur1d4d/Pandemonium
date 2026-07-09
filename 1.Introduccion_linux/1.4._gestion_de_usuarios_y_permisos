@@ -1,0 +1,190 @@
+Como Añadir, Editar o Eliminar Usuarios
+
+Como comento arriba, en la primera parte te hablaré sobre los cuatro comandos básicos que puedes necesitar a la hora de añadir, editar o eliminar usuarios en Linux. Ten en cuenta que, para poder realizar la gran mayoría de acciones que verás a continuación, necesitarás adquirir permisos de root o superusuario, ya sea a través de su, o, de forma temporal, mediante sudo (caso de que utilices Ubuntu, por ejemplo)
+
+Si bien el hecho de crear o borrar usuarios es algo que hoy en día se puede hacer de forma gráfica en la gran mayoría de distribuciones, creo que vale la pena aprenderlo a hacer desde la línea de comandos. Esto te dará una visión mucho más potente de lo que estás haciendo, y por otro lado, yo podré mantener una cierta coherencia a lo largo de esta guía.
+
+Como pequeño recordatorio sobre algo que comenté en el primer post sobre la estructura de permisos, en Linux, aparte del usuario root y los usuarios locales, también hay una larga lista de cuentas que van asociadas servicios o componentes del sistema.
+
+Basta con listar los procesos que están corriendo en tu sistema para darte cuenta de ello. Ahí puedes ver que aparte de root y de tu usuario local, hay algunos procesos que corren bajo sus propias cuentas de usuario.
+
+Es importante tener esto ultimo en mente porqué cuando hablemos de crear y gestionar usuarios nos estamos refiriendo siempre a usuarios locales, dejando a un lado a las cuentas del sistema.
+
+Añadir un Nuevo Usuarios
+Para añadir una nueva cuenta de usuario en Linux puedes utilizar el comando adduser, con un sudo o su delante, dado que la acción requiere de permisos de superusuario. Ah, algo importante a tener en cuenta, al crear un nuevo usuario, también se creará un nuevo grupo con el mismo nombre, dentro del cual se va a incluir este usuario.
+
+A continuación tienes la sentencia básica. Verás que al hacer esto, el sistema te pedirá una serie de detalles sobre el usuario, tales como la contraseña de Unix o el nombre completo de usuario. Puedes omitir perfectamente el resto de datos, tales como  el teléfono de trabajo, el teléfono de casa, etc.
+
+sudo adduser usuario
+Eliminar Usuario
+Si para añadir una cuenta utilizamos adduser, para eliminar un usuario el comando a utilizar es userdel. Ya verás que, al eliminar el usuario, si este estaba dentro de un grupo donde solo estaba él, el grupo también se borrará.
+
+Esto es lo que ocurre, por ejemplo, en una cuenta de usuario local, ya que, al momento de crearse, se crea también un grupo en el que solamente está él.
+
+Aquí te dejo la sentencia básica. En este caso, es solo aplicar el comando y la cuenta se borrará automáticamente del sistema.
+
+sudo userdel usuario
+Cambiar la Contraseña de una Cuenta
+Asimismo, también te puede interesar cambiar la password de una cuenta concreto. Para ello se utiliza el comando passwd. Aquí tienes la sentencia:
+
+sudo passwd usuario
+Ver todos los Usuarios del Sistema
+En Linux, toda la información relativa a los usuarios es almacenada en un archivo de texto. Este archivo es /etc/passwd. Mediante este archivo también podrás editar sus propiedades, aunque yo recomendaría utilizarlo únicamente a modo informativo (de ahí el hecho de no abrirlo con sudo), y utilizar los comandos apropiados en caso de querer modificar algo.
+
+Si quieres listar todos lo usuarios a través de la consola, tan solo debes leer el contenido del fichero mediante el comando que te dejo a continuación. Verás que no utilizo el sudo delante, pues lo abriremos en modo lectura, así te aseguras de no modificar nada por error. Las contraseñas obviamente no se muestran en texto plano en este archivo, sino que van protegidas por hash aparte..
+
+cat /etc/passwd
+Como Añadir, Editar o Eliminar Grupos
+Anuncios
+Los grupos se utilizan básicamente para permitir o restringir el acceso a ficheros y directorios de forma fácil, y evitar el tener que parametrizar cada uno de los permisos, usuario por usuario. Si tenemos una serie de cuentas que deben compartir el mismo nivel de permisos, estos pueden pertenecer al mismo grupo.
+
+Añadir un Grupo
+Para añadir un grupo, basta con abrir nuevamente una ventana de terminal, y siguiendo con la misma lógica que en el caso de usuarios, teclear la siguiente sentencia:
+
+sudo groupadd grupo
+Eliminar un Grupo
+Como te he explicado como crear un nuevo grupo, también vale la pena comentar como eliminar un grupo existente, si bien esto es algo que difícilmente vas a tener que utilizar, a menos que administres un sistema con una gran cantidad de usuarios y grupos creados.
+
+Al igual que en el caso de los usuarios, te recomiendo NO borrar en ningún caso uno de los grupos creados por el sistema en la instalación inicial, a no ser que sepas muy bien lo que haces.
+
+sudo groupdel grupo
+Añadir un Usuario dentro de un Grupo
+En el caso de que administres un equipo con varios usuarios, y hayas tenido que crear nuevos grupos para gestionar mejor sus permisos, es probable que necesitas saber como añadir un user dentro de un grupo. Esto puedes hacerlo mediante el siguiente comando:
+
+sudo adduser usuario grupo
+Un caso en el que esto puede serte de utilidad es si has creado un usuario nuevo y trabajas en una distribución, como Ubuntu, en el que el usuario Root está deshabilitado. En este caso, si quieres que el nuevo usuario pueda hacer uso «sudo», necesitarás añadirlo al grupo:
+
+sudo adduser usuario sudo
+Eliminar un Usuario de un Grupo
+Del mismo modo, para eliminar un usuario dentro de un determinado grupo, puedes valerte de la siguiente sentencia:
+
+sudo deluser usuario grupo
+Ver Todos los Grupos del Sistema
+El archivo de texto que almacena la información relativa a los grupos del sistema es /etc/group. Aquí me remito a lo mismo que he dicho en el caso del archivo /etc/passwd. Hay muchos grupos del sistema, por lo que yo te recomendaría utilizarlo únicamente a modo informativo y valerte de los comandos apropiados en caso de querer modificar algo.
+
+Así pues, puedes listar todos los grupos que existen en tu sistema leyendo el contenido del fichero que acabo de indicar. Te recomiendo de nuevo no editar nada en este archivo. Te dejo el comando a utilizar a continuación (verás que no utilizo sudo delante, ya que lo abriremos solo en modo lectura):
+
+gedit /etc/group
+Cambiar el Propietario de un Fichero
+A grandes rasgos, en Linux todos los archivos o directorios pertenecen a un usuario y un grupo. Teniendo esto en cuenta, se definen los diferentes tipos de permisos (lectura, escritura y ejecución) a nivel del usuario propietario de ese fichero, del grupo propietario y del resto del mundo.
+
+En los comandos que verás a continuación, a la hora de indicar el archivo o directorio, en caso de que este no se encuentre dentro del directorio de trabajo actual, deberás especificarlo mediante su ruta absoluta dentro de la estructura de directorios del sistema. Si tienes dudas en esto, en este post tienes mas info sobre como navegar a través de los diferentes directorios desde la terminal.
+
+Cambiar Usuario Propietario con Chown
+El comando que sirve para cambiar el propietario de un determinado archivo o directorio a nivel de user es chown. Ten en cuenta que al cambiar el usuario propietario de un fichero, el grupo propietario no variará. Aunque el nuevo usuario pertenezca a otro grupo distinto, el grupo propietario del fichero seguirá siendo el de antes.
+
+A continuación te dejo con la sintaxis básica de este comando. En este caso, el grupo no cambiará.
+
+sudo chown usuario ruta-fichero
+En caso de que se trate de un directorio, si quieres que la orden se aplique de forma recursiva para todos los ficheros contenido en él, el comando será el siguiente. Si utilizas este mismo comando sin el parámetro -R, el cambio que hayas especificado solo tendrá efecto sobre el directorio, pero no sobre su contenido.
+
+sudo chown -R usuario ruta-directorio
+Te pongo un par de ejemplos sobre este comandos:
+
+Vamos a suponer que queremos cambiar el propietario del archivo hola.txt dentro de la carpeta Documentos del usuario tom. El actual propietario es el usuario tom, y queremos que el nuevo sea el usuario lisa.
+
+sudo chown lisa /home/tom/Documentos/hola.txt
+Otro ejemplo. Vamos a suponer que queremos cambiar el propietario del archivo hola.txt dentro de la carpeta Documentos del usuario tom. El actual propietario es el usuario tom, y queremos que el nuevo sea el usuario lisa.
+
+sudo chown lisa /home/tom/Documentos/hola.txt
+Cambiar Grupo Propietario con Chgrp
+Para cambiar el grupo propietario de un fichero te puedes valer del comando chgrp, aunque más adelante verás que también lo puedes hacer con chown. De forma análoga a lo que ocurre al cambiar el propietario a nivel de usuario, en este caso el grupo propietario cambiaré, pero el usuario seguirá siendo el mismo de antes. A continuación te dejo con la sintaxis básica:
+
+sudo chgrp grupo ruta-archivo
+En caso de que se trate de un directorio, si quieres que la orden se aplique de forma recursiva para todos los ficheros contenido en él, el comando será el siguiente. Al igual que antes, si utilizas el comando sin el parámetro -R, la orden solamente tendrá efecto sobre el directorio especificado, pero NO sobre el contenido dentro de él.
+
+sudo chgrp -R grupo ruta-directorio
+Hay otra modalidad de funcionamiento del comando chown que sirve para cambiar el grupo propietario de un fichero. Ello consiste en especificar un grupo, pero no indicar el usuario. En este ultimo caso, la operación es la misma que realiza el comando chgrp. La sintaxis es la siguiente:
+
+sudo chown :grupo ruta-archivo
+Si quieres cambiar tanto el usuario como el grupo al que pertenece un determinado fichero, la sintaxis de uso es la siguiente:
+
+sudo chown usuario:grupo ruta-archivo
+Te pongo algún ejemplo sobre este comando:
+
+Vamos a suponer que queremos cambiar el propietario del archivo hola.txt dentro de la carpeta Documentos del usuario tom. El grupo propietario es tom, y queremos que el nuevo sea el grupo lisa.
+
+sudo chgrp lisa /home/tom/Documentos/hola.txt
+Asignar Permisos de Lectura, Escritura y Ejecución de un Fichero
+El comando chmod es el que sirve para establecer permisos de archivos en Linux. Lo puedes utilizar de dos formas, según las dos formas de representar los permisos que puedes ver el post que te enlazo.
+
+Usar Chmod en Modo Numérico u Octal
+El modo octal es una de las formas más típicas de asignar permisos a ficheros en Linux. Esto es así porqué, una vez tienes interiorizadas en tu cabeza todas las combinaciones numéricas, te permite la asignación de privilegios de manera absoluta (sin tener en cuenta el esquema de permisos anterior) y con menos texto que en el formato texto (el otro modo de representación que te explicaré más adelante).
+
+A continuación te dejo con la sintaxis básica que debes tener en la cabeza, a la hora de utilizar la asignación de permisos en modo octal:
+
+sudo chmod XYZ ruta-archivo
+En esta representación, X se refiere a los permisos del usuario propietario, Y a los del grupo propietario y Z a los del resto de usuarios. X, Y y Z pueden ser cualquier número entero del 0 al 7, teniendo en cuenta la siguiente regla:
+
+0 – Ningún permiso
+1 – Dar permiso de ejecución
+2 – Dar permiso de escritura
+4 – Dar permiso de lectura
+Cualquier combinación de los diferentes tipos de permisos que podemos tener se obtiene sumando los números que lo representan. Así, nos salen las siguientes combinaciones:
+
+0 – Ningún permiso
+1 – Ejecución
+2 – Escritura
+3 – Escritura y ejecución
+4 – Lectura
+5 – Lectura y ejecución
+6 – Lectura y escritura
+7 – Lectura, escritura y ejecución
+Como ves, la combinación 777 correspondería con el máximo nivel de privilegios que que pueden asignar a un fichero.
+
+Para cambiar los privilegios de un directorio, la sentencia es exactamente la misma, teniendo en cuenta que, como tal, solamente aplicara al directorio en cuestión y no a su contenido. Si quieres que se aplique de forma recursiva para todo el contenido, deberemos utilizar el comando así:
+
+sudo chmod XYZ -R ruta-directorio
+Te pongo debajo algunos ejemplos sobre esto, pero recuerda que si quieres hacer pruebas en tu propio sistema a modo de aprendizaje, be carefull y piensa bien en los permisos que das o quitas y en que archivos. A modo de testeo, lo mejor es que practiques sobre algún archivo de prueba).
+
+
+Para el primer caso, supón que quieres cambiar los privilegios del fichero hola.txt (un archivo de texto que he creado) dentro de la carpeta Documentos del usuario tom. Queremos dar permisos de lectura y escritura al usuario y grupo propietarios, y solo de lectura al resto del mundo.
+
+sudo chmod 664 /home/tom/Documentos/hola.txt
+Esta estructura de permisos (lectura y escritura para usuario y grupo, y solo lectura para el resto de usuarios) es la que suele ser habitual para todos los archivos de texto o imágenes dentro de la home de un usuario, por lo que muy probablemente ya tendrá por defecto esos permisos.
+
+Sobre el ejemplo anterior, imagina que quieres restringir los permisos de lectura y escritura solo al usuario, y que tanto los usuarios dentro del grupo propietario como el resto del mundo solo tengan permiso de lectura.
+
+sudo chmod 644 /home/tom/Documentos/hola.txt
+En este otro caso, imagina que has creado un script en Bash o en Python dentro de la carpeta Documentos. Por defecto, lo habitual es que tenga la estructura de permisos 664. Si quieres poder ejecutar el script, pero solo desde tu usuario, puedes modificar los permisos de esta manera:
+
+sudo chmod 764 /home/tom/Documentos/script.py
+En Linux, el permiso de ejecución es en muchos casos necesarios, por ejemplo en el caso de servidores web que ejecute PHP, donde muchos de los archivo son scripts y necesitan tener permisos de ejecución.
+
+Usar Chmod en Modo Texto
+La sintaxis básica en modo texto es un poco complicada de expresar (que no de entender), más que nada porqué tiene varias variantes. Voy a intentar expresarlo lo mejor que pueda.
+
+sudo chmod [u,g,o][=,+,-][r,w,x] ruta-archivo
+En esta representación, el primer parámetro después del chmod expresa el nivel al que queremos asociar un determinado permiso
+
+u : Usuario,
+g : Grupo,
+o : Otros
+Seguidamente tenemos el modificador. Esto nos permite especificar un permiso de forma absoluta (=) o bien de forma relativa al permiso actual (+, -)
+
+= : Asignar un permiso de forma absoluta,
++ : Añadir un permiso
+ – : Quitar un permiso
+Por ultimo, seguido del modificador tenemos el modo o tipo de permiso que queremos asignar, o quitar, que básicamente son:
+
+r : Lectura
+w : Escritura
+x : Ejecución
+Para cambiar los permisos de un directorio, la sentencia es exactamente la misma, teniendo en cuenta que, como tal, solamente aplicara al directorio en cuestión y no a su contenido. Si quieres que se aplique de forma recursiva para todo el contenido, deberemos utilizar el comando así:
+
+sudo chmod [u,g,o][=,+,-][r,w,x] -R ruta-directorio
+Veamos algunos ejemplos, porqué como habrás podido intuir, las opciones son varias y variadas:
+
+En primer lugar, te muestro la sintaxis equivalente en modo texto, del primero ejemplo que te he puesto para el modo octal, en el que hemos asignado permisos de lectura y escritura (6) para usuario y grupo y de solo lectura para el resto (4) de un script de ejemplo.
+
+sudo chmod u=rw,g=rw,o=r script.py
+Sobre este mismo ejemplo, pongamos por caso que quieres añadir los permisos de ejecución a nivel de usuario, pero mantener invariables los permisos a nivel de grupo y otros. En este caso, puedes optar por utilizar el operador «+» y ahorrarte el volver a hacer una asignación absoluta.
+
+sudo chmod u+x script.py
+Hecho esto, tu script de ejemplo tendrá permisos de lectura, escritura y ejecución a nivel de usuario, lo que equivaldría al bit 7 en octal. Si quieres realizar la operación inversa, es decir, quitar el permito de ejecución a nivel de usuario, es tan simple como hacer esto:
+
+sudo chmod u-x script.py
+Otro caso simple sería quitar los permisos de escritura para el grupo (de modo que solo dejaríamos los privilegios de escritura para el usuario propietario). Siguiendo la misma lógica de antes, utilizaríamos la siguiente sentencia:
+
+sudo chmod g-w script.py
+Así podríamos ir siguiendo con muchas otras combinaciones, pero creo que con esto ya conoces como modificar permisos tanto en modo numérico como en modo octal. A partir de ahí, decantarte por uno u otro ya dependerá de lo intuitivo y practico que te resulte cada uno.
