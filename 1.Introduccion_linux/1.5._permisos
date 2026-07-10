@@ -8,8 +8,14 @@ Chattr +i -V
 
 Permisos especiales - SUID y SGID
 
+SUID
 Para aplicar el permiso SUID tenemos dos formas y son:
     1-.chmod 4555 <nombre de directorio o archivo> (el 4 es el SUID y el 555 es el permiso octal)
     2-.chmod u+s <nombre de directorio o archivo> (u es el permiso de usuario o propietario y la s es el SUID)
-
+El SUID es aplicable para nivel de usuario
 Cuando un binario sea SUID, es que sea el usuario que sea va poder ejecutar de forma temporal como el propietario (root), si ejecutamos, el contexto bajo el que esta lanzando es forma temporalmente privilegiada como el propietario
+
+SGID
+Para aplicar el permiso SGID tenemos dos formas y son:
+    1-.chmod 2555 <nombre de directorio o archivo> (el 2 es el SUID y el 555 es el permiso octal)
+    2-.chmod g+s <nombre de directorio o archivo> (g es el permiso de grupo y la s es el SGID)
