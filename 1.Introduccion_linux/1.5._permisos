@@ -1,0 +1,15 @@
+Control de atributos de ficheros en Linux - Chattr y Lsattr
+
+lsattr  -> permite listar 
+Chattr +i -V
+        (+i = inmutable, cuando ejecutas esta flag con el + se añade el inmutable y no permite borrar o eleminar el archivo, ni siquiera root puede eliminarlo)
+        (-i = inmutable, cuando ejecutas esta flag con el - se quita el inmutable y nsio permite borrar o eleminar el archivo, y ahora root puede eliminarlo)
+        (-V = verbose, es una forma que te permite que esta sucediendo detras de nivel operatoria)
+
+Permisos especiales - SUID y SGID
+
+Para aplicar el permiso SUID tenemos dos formas y son:
+    1-.chmod 4555 <nombre de directorio o archivo> (el 4 es el SUID y el 555 es el permiso octal)
+    2-.chmod u+s <nombre de directorio o archivo> (u es el permiso de usuario o propietario y la s es el SUID)
+
+Cuando un binario sea SUID, es que sea el usuario que sea va poder ejecutar de forma temporal como el propietario (root), si ejecutamos, el contexto bajo el que esta lanzando es forma temporalmente privilegiada como el propietario
