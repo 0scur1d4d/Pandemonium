@@ -19,3 +19,33 @@ SGID
 Para aplicar el permiso SGID tenemos dos formas y son:
     1-.chmod 2555 <nombre de directorio o archivo> (el 2 es el SUID y el 555 es el permiso octal)
     2-.chmod g+s <nombre de directorio o archivo> (g es el permiso de grupo y la s es el SGID)
+
+EL BIT STICKY
+El bit sticky se representa mediante una t en la máscara de permisos, apareciendo en la posición del permiso de búsqueda de los otros.
+Se aplica a directorios de uso público, es decir, aquellos que tienen todos los permisos activados y por tanto, todo el mundo puede crear y 
+borrar ficheros; esto puede ser un poco peligroso porque un usuario puede borrar los ficheros de otros y para evitarlo se activa el bit sticky. 
+Con este permiso se consigue que cada usuario solo pueda borrar los ficheros que son de su propiedad. Un directorio al que se le suele activar
+ el bit sticky es /tmp.
+
+$ ls -ld /tmp
+drwxrwxrwt 17 root root 4096 may 18 14:28 /tmp
+Para establecerlo podemos ejecutar:
+        chmod 1xxx directorio
+o bien
+        chmod o+t directorio
+De forma análoga a los permisos anteriores, para desactivarlo:
+        chmod o-t directorio
+Hay que tener en cuenta que si no está activo el bit de búsqueda del directorio para los otros, el bit sticky aparecerá como una T (t mayúscula).
+
+El bit sticky se puede aplicar también a programas, y sirve para decirle al sistema que el programa que lo tiene activo tiene tendencia a ser 
+ejecutado frecuentemente y debería ser retenido en el área de swap, aún cuando no esté siendo ejecutado. Esto consume espacio en la partición 
+de intercambio, pero reduce notablemente el tiempo de ejecución y tiende a mejorar el rendimiento del sistema.
+
+Los permisos especiales en Linux (SUID, SGID y Sticky Bit) modifican el comportamiento estándar de acceso a archivos y directorios.
+
+            -SUID (SetUID - 4000): Permite a un usuario ejecutar un archivo con los privilegios del propietario de dicho archivo, en lugar de los suyos 
+                    propios.
+            -SGID (SetGID - 2000): Hace que un archivo se ejecute con los permisos del grupo propietario. Si se aplica a un directorio, todos los archivos 
+                    nuevos creados en él heredarán el grupo de ese directorio.
+            -Sticky Bit (Bit persistente - 1000): En un directorio, restringe el borrado o cambio de nombre de los archivos a solo el propietario del 
+                    archivo, el propietario del directorio o root, incluso si otros usuarios tienen permisos de escritura

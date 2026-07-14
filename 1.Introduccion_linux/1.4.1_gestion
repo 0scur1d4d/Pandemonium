@@ -1,0 +1,173 @@
+Gestión de grupos
+        /etc/group
+    ¿Que grupos hay en mi equipo? Para conocer toda la información relativa a grupos en tu equipo, solo tienes que echar un vistazo al 
+    archivo /etc/group. Para ver el contenido de este archivo, no necesitas tener permisos de administrador. Si miras su contenido, 
+    encontrarás algo como,
+
+            sambashare:x:129:lorenzo,pepe,juan
+
+    Cada una de las líneas de este archivo tiene un grupo, junto con otra información separada por :. Así en el ejemplo anterior tenemos,
+
+        - sambashare el nombre del grupo
+        - x una contraseña cifrada. Sin embargo, esto por regla general no se utiliza.
+        - 129 el número de identificación del grupo GID.
+        - lorenzo,pepe,juan, es un listado de los usuarios que pertenecen al grupo separados por comas.
+
+    Si quieres tener un listado de los grupos de tu equipo, tan solo tienes que ejecutar la siguiente instrucción,
+
+            cut -d : -f 1 /etc/group
+
+    Si quisieras ver a que grupos perteneces, en ese caso la instrucción a ejecutar es, sustituyendo lorenzo por tu nombre de usuario,
+
+            cat /etc/group | grep lorenzo | cut -d: -f1
+
+Crear y eliminar grupos
+
+    Como ya te imaginas, para gestionar usuarios y grupos en Linux es necesario que tengas o adquieras permisos de administrador. 
+    Así, por ejemplo si quieres crear un nuevo grupo, tienes que ejecutar la siguiente instrucción,
+
+            sudo groupadd <grupo>
+
+    También es posible crear varios grupos de una sola vez,
+
+            sudo groupadd <grupo1>, <grupo2>, <grupo3>
+
+    Como has visto anteriormente, si quieres asegurarte de haber creado el grupo, tan solo tendrás que ejecutar la siguiente instrucción,
+
+            cut -d : -f 1 /etc/group | grep <grupo>
+
+    Si te devuelve el nombre del grupo, es que efectivamente ha sido creado, en otro caso, es que algo has hecho incorrectamente.
+    Por otro lado, para eliminar grupos de tu equipo, la instrucción a utilizar es,
+
+            sudo groupdel <group>
+
+    Igual que en el caso anterior, si te quieres asegurar de que has borrado el grupo, ejecuta la siguiente instrucción,
+
+            cut -d : -f 1 /etc/group
+
+    En este caso, para que todo haya ido bien, no te debe devolver nada. En caso contrario, es que no has eliminado el grupo. Algo no has hecho correctamente.
+
+Gestión de usuarios
+
+        /etc/passwd
+
+    Si para el caso de grupos has utilizado el archivo /etc/group, en el caso de usuarios tienes que hacer uso de /etc/passwd. 
+    Igual que en el caso de los grupos, si miras el contenido de este archivo, verás que cada línea del mismo, tiene el siguiente aspecto,
+
+            lorenzo:x:1000:1000:Lorenzo,,,:/home/lorenzo:/bin/bash
+
+        - lorenzo es el alias del usuario que utiliza para registrarse
+        - x representa que la contraseña cifrada se encuentra en /etc/shadow
+        - 1000 es el número de identificación del usuario UID
+        - 1000 representa el número de identificación del grupo principal al que pertenece el usuario, lo que se conoce como GID.
+        - Lorenzo,,, es la información adicional que has proporcionado al crear la cuenta en cuestión. Así aparecerán el nombre de usuario, 
+        y otros datos que defines durante la creación del nuevo usuario.
+        - /home/lorenzo es la ruta de inicio del nuevo usuario, el hogar del usuario.
+        - /bin/bash es el shell que utiliza el usuario en cuestión.
+
+    Ahora que ya has visto como se guarda la información de los usuarios, tienes que hacer, como en el caso de grupos, y sacar un listado 
+    solo de los usuarios. Esto lo puedes hacer ejecutando la siguiente instrucción,
+
+            cat /etc/passwd | cut -d: -f1
+
+    Sin embargo, si te fijas, te darás cuenta, que aquí hay tanto usuarios normales como usuarios de sistema. Para dejar solo los usuarios 
+    normales, puedes filtrar, quitando los que no tienen shell. Esto en el listado puedes ver que viene definido 
+    como /usr/sbin/nologin o /bin/false. Utiliza estas dos opciones para realizar el filtrado. Así puedes ejecutar la siguiente instrucción,
+
+            cat /etc/passwd | grep -v /bin/false | grep -v /nologin
+
+    Con esto a mi me queda lo siguiente,
+
+        - root:x:0:0:root:/root:/bin/bash
+        - sync:x:4:65534:sync:/bin:/bin/sync
+        - lorenzo:x:1000:1000:Lorenzo,,,:/home/lorenzo:/bin/bash
+
+    Si quisieras eliminar también root y sync, la opción es filtrar por /home. Quedando definitivamente como,
+
+            cat /etc/passwd | grep -v /bin/false | grep -v /nologin | grep /home | cut d: -f1
+
+Crear y eliminar usuarios
+
+    Ahora que ya sabes los usuarios que tienes en tu sistema, ha llegado el momento de gestionarlos. Y para gestionarlos tienes que empezar 
+    por crearlos y borrarlos. Así, para crear un nuevo usuario, tan solo tienes que ejecutar la siguiente instrucción, evidentemente con 
+    derechos de administrador,
+
+            sudo adduser <usuario>
+
+    Aquí te tengo que indicar que adduser crea los usuarios en función de la configuración definida en /etc/adduser.conf. Esta configuración 
+    la puedes modificar y adaptar a tus necesidades.
+
+    Además en la operación de creación de un nuevo usuario, puedes definir una serie de parámetros que condicionarán esta creación. Así por 
+    ejemplo puedes definir el directorio de inicio con la opción --home. También es posible indicar la shell que utilizará ese usuario, y mas 
+    parámetros opcionales.
+
+    Por otro lado, para eliminar un usuario tienes que utilizar la instrucción
+
+            sudo deluser <usuario>
+
+    Al igual que sucede con la creación de usuario, también es posible definir una serie de parámetros que te van a permitir afinar la 
+    operación de eliminación de un usuario. Así puedes indicar que borre el directorio de inicio con el parámetro --remove home, o también 
+    `–remove-all-files que lo que hará será borrar todos los archivos del usuario que estén en el sistema.
+
+    Una vez creado un usuario en tu equipo, también puedes modificar algunas características del mismo. Para esto tienes la utilidad usermod. 
+    Con ella puedes entre otros aspectos, gestionar grupos, pero no solo esto, sino que también puedes,
+
+        - modificar el directorio de inicio del usuario
+        - cambiar la fecha en la que la cuenta se desactivará
+        - puedes cambiar el número de días de vigencia de las contraseñas de usuario
+        - modificar el grupo principal
+        - es posible cambiar el shell
+        - también puedes deshabilitar o habilitar una determinada cuenta de usuario
+
+    Y algunos aspectos adicionales. Te recomiendo que le des un vistazo a la ayuda de este comando para tener mucha más información 
+    man usermod.
+
+Usuarios y grupos
+
+    Ahora que ya tienes claro como gestionar usuarios y grupos, queda combinar ambos conceptos. Así, ¿como saber a que grupos pertenece un 
+    determinado usuario? Para ello tienes que ejecutar la siguiente instrucción,
+
+            groups <usuario>
+
+    Así, en mi caso, al ejecutar esta instrucción, me muestra el siguiente resultado,
+
+            lorenzo : lorenzo adm tty dialout cdrom sudo dip plugdev input lpadmin sambashare docker
+
+    El siguiente paso natural es añadir un usuario a un grupo. Esto es tan sencillo como ejecutar la orden,
+
+            sudo usermod -a -G <grupos> <usuario>
+
+        - La opción -a tiene que ser utilizada siempre junto con la opción -G, y lo que indica es que añades al usuario a grupos suplementarios.
+        - La opción -G te permite indicar a los grupos suplementarios (separados por comas) a los que quieres que pertenezca el usuario.
+
+    También puedes utilizar la forma usermod -aG <grupos> <usuario>. Por ejemplo,
+
+            sudo usermode -aG cdrom,dialout lorenzo
+
+    Por el contrario, si quieres que un usuario deje de pertenecer a un grupo, debes utilizar la siguiente instruccióm,
+
+            sudo deluser <usuario> <grupo>
+
+Otras herramientas
+    
+    Además de todas las posibilidades que has visto hasta el momento, también tienes la posibilidade de utilizar la herramienta finger. 
+    Esta aplicación te ofrece información de los usuarios de tu equipo, en principio, de los usuarios que no son de sistema. Para ello, 
+    tan solo tienes que ejecutar el comando finger y te arrojará un resultado como el que ves a continuación,
+
+            Login     Name       Tty      Idle  Login Time   Office     Office Phone
+            lorenzo   Lorenzo   *:0             Jun 17 21:23 (:0)
+
+    Si quieres obtener información mas detallada de un usuario, ejecuta entonces finger <usuario> y el resultado será similar al que ves a 
+    continuación,
+
+            Login: lorenzo                  Name: Lorenzo
+            Directory: /home/lorenzo                Shell: /bin/bash
+            On since Mon Jun 17 21:23 (CEST) on :0 from :0 (messages off)
+            No mail.
+            No Plan.
+
+    Indicarte que finger no se encuentra instalado por defecto, pero está en los repositorios oficiales de Ubuntu, con lo que instalarlo es 
+    tan sencillo como ejecutar sudo apt install finger.
+
+    En el caso de otras distribuciones como puede ser Arch Linux tendrás que utilizar su gestor de paquetes, por ejemplo, 
+    sudo pacman -S finger.
