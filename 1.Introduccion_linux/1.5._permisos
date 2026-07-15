@@ -1,10 +1,223 @@
-Control de atributos de ficheros en Linux - Chattr y Lsattr
+pagina web (https://www.geeksforgeeks.org/linux-unix/chattr-command-in-linux-with-examples/)
+
+Comandos chattr y lsattr en Linux con ejemplos
+
+        En el mundo de Linux, gestionar los permisos y atributos de los archivos es crucial para mantener un sistema seguro y organizado. 
+        Dos comandos potentes que ayudan a controlar los atributos de archivos y directorios son 'chattr' y 'lsattr'. Estos comandos son 
+        esenciales para administradores y usuarios avanzados que necesitan evitar cambios no autorizados, proteger archivos críticos y 
+        garantizar la integridad del sistema.
+
+¿Qué es el comando 'lsattr' en Linux?
+
+        El comando lsattr es un comando Unix/Linux que se utiliza para enumerar los atributos de archivos o directorios en un sistema de 
+        archivos que admite atributos extendidos. Los atributos extendidos son metadatos adicionales asociados con un archivo o directorio 
+        más allá de los metadatos tradicionales, como permisos, propiedad y tiempo de modificación.
+
+                lsattr [opciones] [archivos/directorios]
+
+                -a: Enumera todos los archivos y directorios, incluidos aquellos cuyos nombres comienzan con un punto (archivos ocultos).
+                -d: Si el argumento es un directorio, enumere los atributos del directorio en sí en lugar de su contenido.
+                -R: Enumera recursivamente los atributos de los directorios y sus contenidos.
+
+¿Qué es el comando 'chattr' en Linux?
+
+        El comando 'chattr' (cambiar atributo) es una utilidad del sistema de archivos en Linux que permite a los usuarios cambiar los 
+        atributos de archivos y directorios. Este comando es particularmente útil en un entorno multiusuario, donde es necesario restringir 
+        las modificaciones a archivos críticos. Al usar 'chattr', puede hacer que los archivos sean inmutables (no eliminables o no 
+        modificables), restringirlos al modo de solo anexión y aplicar otros comportamientos específicos que mejoren la seguridad de los 
+        archivos.
+
+                chattr [ -RVf ] [ -v versión ] [ modo ] archivos...
+
+        A continuación se muestran las diferentes opciones para el comando chattr: 
+
+                -R: Se utiliza para mostrar los atributos de lista de directorios y sus contenidos de forma recursiva.
+                -V: Mostrará la versión del programa.
+                -a: Se utiliza para enumerar todos los archivos de un directorio que también incluye cuyo nombre comienza con un Período ('.').
+                -d: Esta opción enumerará los directorios como archivos normales en lugar de enumerar su contenido.
+                -v: Se utiliza para mostrar el número de versión/generación del archivo, etc.
+
+        Al comienzo de una cadena de modo, debe aparecer uno de los siguientes operadores: 
+
+                '+' : Agregar atributos seleccionados a los atributos existentes de los archivos.
+                '-' : Hace que se eliminen los atributos seleccionados.
+                '=': hace que los atributos seleccionados sean los únicos atributos que tienen los archivos.
+
+        El formato del modo simbólico es: 
+
+                {+|-|=}[aAcCdDeijsStTu]
+
+        A continuación se muestra la lista de atributos comunes y los indicadores asociados que se pueden configurar o desactivar mediante el 
+        comando chattr: 
+
+                - Un conjunto: El registro de tiempo no se actualiza.
+                - S set: Los cambios se actualizan sincrónicamente en el disco.
+                - un conjunto: el archivo solo se puede abrir en modo agregar para escribir.
+                - i set: El archivo no se puede modificar (inmutable), el único superusuario puede anular la configuración del atributo.
+                - j set: Toda la información de los archivos se actualiza en el diario ext3 antes de actualizarse en el archivo mismo.
+                - t set: No se permite la fusión de colas.
+                - d set: No hay más candidatos para copia de seguridad cuando se ejecuta el proceso de volcado.
+                - u set: Cuando se elimina dicho archivo, sus datos se guardan permitiendo al usuario solicitar su recuperación.
+
+        Sin embargo, todos los comandos anteriores no están calificados para archivos y también se pueden usar en directorios (carpetas) para 
+        proteger un directorio contra eliminación o cualquier otro accidente análogo. Sin embargo, al proteger un directorio, se sugiere 
+        utilizar el indicador -R’ para proteger recursivamente todo el contenido del directorio especificado. 
+
+        Uso del comando chattr: Chattr’ se puede utilizar para preservar algunos archivos del sistema que son muy importantes y deben 
+        permanecer en la PC host pase lo que pase. Además, para que un directorio no se pueda eliminar o modificar para usuarios que no sean 
+        superusuarios, esto es necesario. El uso común de 'chattr' es el siguiente:- 
+
+        1.- Hacer que el archivo sea inmutable: el comando aquí hizo que el archivo llamado file.txt fuera inmutable, por lo tanto ahora no 
+        es posible realizar operaciones en este archivo hasta que se cambien nuevamente los atributos del archivo.
+
+                https://media.geeksforgeeks.org/wp-content/uploads/Final-Chattr-2.jpg
+
+        2.- Abrir el archivo solo en modo agregar: el indicador a’ se utiliza para abrir el archivo solo en modo agregar. En consecuencia, 
+        sólo se puede añadir y los datos anteriores no se pueden modificar.
+
+                https://media.geeksforgeeks.org/wp-content/uploads/Screenshot-from-2018-12-31-11-53-36.png
+
+        3.- Cómo proteger los directorios: el indicador +i’ se puede utilizar para un directorio (como se muestra a continuación) para que el 
+        directorio sea inmutable. Además, aquí se utiliza el indicador -R’, que hace que la llamada sea recursiva y todos los subarchivos y 
+        directorios también se vuelven inmutables.
+
+                https://media.geeksforgeeks.org/wp-content/uploads/Screenshot-from-2018-12-31-12-07-32-e1546240106383.png
+
+        Nota: el comando lsattr se utiliza para ver los atributos de los archivos en un directorio. Aquí, cabe señalar que el indicador e en 
+        el archivo está configurado previamente y significa que el archivo está usando extensiones para mapear bloques en el disco. Las 
+        extensiones dependen del sistema de archivos. Rara vez son removibles.
+
+Salida lsattr
+
+        La salida dellsattr comando normalmente muestra una lista de atributos para los archivos o directorios especificados. Los atributos 
+        están representados por letras y sus significados pueden variar según el sistema de archivos y el conjunto de atributos. A continuación 
+        se muestra un ejemplo de cómo podría verse el resultado:
+
+                ----i----------- ejemplo.txt
+
+        En este ejemplo, cada carácter representa un atributo específico:
+
+        - El primer carácter representa el tipo de archivo. En este caso se trata de un archivo normal.
+        - Los siguientes caracteres representan varios atributos. Aquí hay algunos comunes:
+                - 'a' (solo agregar): el archivo solo se puede abrir en modo agregar.
+                - 'c'(comprimido):
+                - 'd'(sin vertedero)
+                - 'e': formato de extensión (para sistemas de archivos ext4)
+                - 'i'(inmutable): el archivo no se puede modificar, eliminar ni renombrar.
+                - 'j': registro de datos (para sistemas de archivos ext3/ext4)
+                - 's'(actualizaciones sincrónicas): Los cambios se escriben sincrónicamente en el disco.
+                - 't'(sin fusión de colas): evita la fusión de colas, una optimización que ahorra espacio.
+                - 'u'(no eliminable): cuando se elimina un archivo, su contenido se guarda, lo que permite recuperarlo.
+
+        Los atributos pueden activarse o desactivarse, representados por la presencia o ausencia de la letra correspondiente. En el ejemplo 
+        anterior, eli atributo está establecido (inmutable).
+
+        El significado de cada atributo puede variar entre diferentes sistemas de archivos e implementaciones. Puede consultar la página del 
+        manual delsattr (man lsattr) o la documentación de su sistema de archivos específico para obtener más detalles sobre lo que significa 
+        cada atributo.
+
+Opciones de lsattr
+
+        Ellsattr comando tiene varias opciones que le permiten personalizar su comportamiento al enumerar atributos de archivos y directorios. 
+        A continuación se muestra un resumen de las opciones más utilizadas:
+
+                - '-a': Enumere todos los archivos en directorios, incluidos los archivos ocultos (aquellos que comienzan con un punto).
+                - '-d': Enumere los atributos de los directorios en sí, en lugar de sus contenidos.
+                - '-R': Enumere recursivamente los atributos de los directorios y sus contenidos.
+                - '-v': Muestra el número de versión/generación de los archivos.
+                - '-p': Muestra el número de proyecto de los archivos (específico de algunos sistemas de archivos).
+                - '-V': Mostrar la versión del programa.
+
+Visualización de atributos de archivos y directorios
+
+Uso para ver atributoslsattr
+
+        Para ver los atributos de archivos y directorios, utiliza ellsattr comando.
+
+        Ejemplo 1: Ver atributos de un archivo
+
+                archivo lsattr.txt
+
+                https://lh7-us.googleusercontent.com/docsz/AD_4nXeKZ6__sngMveUpjEPFDqyMqE78UFcU-qLJwb44k107bgwzifVPY1_NPuV67e-TbiD7yZ7apNHWZs6-c5LoG4swydHCBqpzB0d0-Z-R06wGSuc_DK_h1DtSK6EZg4s9UCZDdS60vbmM2W2HuI7khsVsiUU?key=GbkHk_LrRXr-KgwzC6ksQg
+
+        Ejemplo 2: Ver atributos de un directorio
+
+                lsattr -d midirectorio
+                
+                https://lh7-us.googleusercontent.com/docsz/AD_4nXcgGKS5hFiAV4SJUm_Iib1AnWj7u21ImntoO0m9WFRQDT0u5A97aW4SYcfYb0Ds4LCqgJZhqzxUhoclh8S77GqhAQGg7oH-5vuzORwACbOhAOnhhzQjU33dakMv7jSGWk-xqOgxTywekcM50ZZkYZzWosJN?key=GbkHk_LrRXr-KgwzC6ksQg
+
+        - -d: Esta opción se utiliza para enumerar los atributos de los directorios en sí en lugar de su contenido. Sin esta opción,lsattr 
+          enumera los atributos de los archivos dentro del directorio.
+        - test/: El nombre del directorio.
+        - test/file1.txt: El nombre del archivo.
+
+
+        La cadena de atributos--------------e----- consta de varias banderas, cada una representada por un carácter en una posición 
+        específica. Si no se establece una bandera, se muestra un guión (-).
+
+                1 - (posición 1): No se establecen atributos especiales (inmutables, solo anexar, etc.).
+                2 - (posición 2): El archivo no está comprimido.
+                3 - (posición 3): El archivo no es sincrónico.
+                4 - (posición 4): El archivo no es inmutable.
+                5 - (posición 5): El archivo no es solo para agregar.
+                6 - (posición 6): El archivo no se elimina exclusivamente.
+                7 - (posición 7): El archivo no está marcado para su eliminación segura.
+                8 - (posición 8): El archivo no está marcado para actualizaciones sincrónicas.
+                9 - (posición 9): El archivo no está indexado.
+                10 - (posición 10): El archivo no es un archivo de diario.
+                11 - (posición 11): El archivo no es un directorio con un árbol hash.
+                12 - (posición 12): El archivo no tiene un nodo de acceso directo.
+                13e (posición 13): este indicador significa que el archivo está usando extensiones para mapear los bloques en el disco. Las 
+                  extensiones son una forma de mejorar el rendimiento de archivos grandes al reducir la fragmentación.
+                14 - (posición 14): No se establece ningún atributo especial.
+                15 - (posición 15): No se establece ningún atributo especial.
+
+        Ejemplo 3: Ver atributos de todos los archivos y directorios de forma recursiva
+
+                lsattr-R
+
+Cambiar atributos con chattr
+
+        Elchattr comando se utiliza para cambiar los atributos del archivo. Necesita permisos de superusuario (root) para cambiar algunos 
+        atributos.
+
+                chattr [opciones] [atributos] [archivos/directorios]
+
+Hacer que los archivos sean inmutables
+
+        Un archivo inmutable no se puede modificar, eliminar ni renombrar y no se le pueden agregar datos.
+
+        Ejemplo 1: Hacer que un archivo sea inmutable
+
+                sudo chattr +i ejemplo.txt
+
+        Ejemplo 2: Hacer que un directorio sea inmutable
+
+                sudo chattr +i -R midirectorio
+
+        Para eliminar el atributo inmutable, utilice:
+
+                sudo chattr -i ejemplo.txt
+
+Cómo hacer que los archivos sean solo anexos
+
+        Un archivo de solo anexión solo permite agregar datos al final del archivo; no se puede eliminar ni sobrescribir.
+
+        Ejemplo 1: Crear un archivo que solo se pueda agregar
+
+                sudo chattr +un ejemplo.txt
+
+        Para eliminar el atributo append-only, utilice:
+
+                sudo chattr -un ejemplo.txt
+
+(control de atributos de ficheros en Linux - Chattr y Lsattr
 
 lsattr  -> permite listar 
 Chattr +i -V
         (+i = inmutable, cuando ejecutas esta flag con el + se añade el inmutable y no permite borrar o eleminar el archivo, ni siquiera root puede eliminarlo)
         (-i = inmutable, cuando ejecutas esta flag con el - se quita el inmutable y nsio permite borrar o eleminar el archivo, y ahora root puede eliminarlo)
-        (-V = verbose, es una forma que te permite que esta sucediendo detras de nivel operatoria)
+        (-V = verbose, es una forma que te permite que esta sucediendo detras de nivel operatoria))
 
 Permisos especiales - SUID y SGID
 
