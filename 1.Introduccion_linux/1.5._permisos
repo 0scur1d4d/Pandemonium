@@ -1,5 +1,37 @@
 pagina web (https://www.geeksforgeeks.org/linux-unix/chattr-command-in-linux-with-examples/)
 
+Comando lsattr (Listar Atributos)
+        Se utiliza para listar o ver los atributos especiales asignados a un archivo o directorio [GeeksforGeeks](geeksforgeeks.org, 
+        Francisconi).
+        
+        Sintaxis básica:
+                lsattr [opciones] [archivo/directorio]
+        
+        Opciones comunes:
+                -a: Muestra todos los archivos, incluyendo los ocultos (que empiezan por punto) GeeksforGeeks.
+                -R: Lista recursivamente los directorios y su contenido GeeksforGeeks.
+                -d: Muestra los atributos del directorio en sí, no de los archivos que contiene GeeksforGeeks.
+
+Comando chattr (Cambiar Atributos)
+        Se utiliza para establecer o eliminar atributos especiales en un archivo o directorio [GeeksforGeeks](geeksforgeeks.org, Wikipedia). 
+        Modificar estos atributos requiere permisos de superusuario (sudo) GeeksforGeeks.
+        
+        Sintaxis básica:
+                chattr [operador] [atributo] [archivo/directorio]
+                
+        Operadores:
+                +: Añade el atributo al archivo.
+                -: Quita el atributo del archivo.
+                =: Asigna exactamente el atributo especificado y elimina los demás.
+        
+        Atributos más utilizados:
+                i (Inmutable): Hace que el archivo no pueda ser modificado, eliminado, renombrado ni enlazado GeeksforGeeks. Ni siquiera el 
+                        usuario root puede hacerlo sin quitar el atributo primero.
+                a (Solo anexión / Append-only): Permite que el archivo solo sea abierto para añadir datos al final del mismo, impidiendo que 
+                        el contenido existente sea sobrescrito o borrado GeeksforGeeks.
+                e (Extent format): Indica que el archivo utiliza bloques extendidos en el disco GeeksforGeeks. Este atributo suele venir por 
+                        defecto y generalmente no se puede cambiar Youtube.
+
 Comandos chattr y lsattr en Linux con ejemplos
 
         En el mundo de Linux, gestionar los permisos y atributos de los archivos es crucial para mantener un sistema seguro y organizado. 
