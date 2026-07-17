@@ -1,0 +1,13 @@
+FIND 
+    ejemplos para utilizar el comando find
+        find / -name dex 2>/dev/null 
+        find / -name dex 2>/dev/null | xargs ls -l
+        find / -perm 4000 2>/dev/null
+        find / -group wheel 2>/dev/null
+        find / -group radm -type d 2>/dev/null
+        find / -group radm -type f 2>/dev/null
+        find / -user root -writable 2>/dev/null
+        find / -name dex\* 2>/dev/null
+        find / -name \*exdum*\ 2>/dev/null
+        find / -name dex\*.sh 2>/dev/null
+        find / -name dex\*.sh -ls 2>/dev/null
