@@ -1,0 +1,13 @@
+Formas de filtrar un ouput ejemplos:
+    ip a | grep ens33
+    ip a | grep ens33 | tail -n 1 (tail -n 1 - filtra la ultima linea)
+    ip a | grep ens33 | awk 'NR==2' (filtra la segunda linea)
+    ip a | grep ens33 | tail -n 1 | awk '{print $2}' ('{print $2}' filtra el segundo argumento)
+    ip a | grep ens33 | tail -n 1 | awk '{print $1}' (filtra el primer argumento y cambiando el numero se cambia el numero de argumento a filtrar)
+    ip a | grep ens33 | tail -n 1 | awk '{print $2}' | awk '{print $1}' FS="/" (filtra el primer argumento tomando la barra)
+    ip a | grep ens33 | tail -n 1 | awk '{print $2}' | cut -d '/' -f 1 (tomando la barra me quiero quedar con el primer field, campo o arguemnto)
+    ip a | grep ens33 | tail -n 1 | awk '{print $2}' | tr '/' ' ' (quiero convertir las barras (/) a espacios)
+    ip a | grep ens33 | tail -n 1 | awk '{print $2}' | tr '/' ' ' | awk '{print $1}' (me quiero quedar con el primer argumento)
+    
+    *recordar el uso de $() que es para que te devuelva o te ponga en este punto el ouput de un comando aplicado en el sistema*
+    
