@@ -10,4 +10,8 @@ Formas de filtrar un ouput ejemplos:
     ip a | grep ens33 | tail -n 1 | awk '{print $2}' | tr '/' ' ' | awk '{print $1}' (me quiero quedar con el primer argumento)
     
     *recordar el uso de $() que es para que te devuelva o te ponga en este punto el ouput de un comando aplicado en el sistema*
+        ejemplo $(ip a | grep ens33 | tail -n 1 | awk '{print $2}' | tr '/' ' ' | awk '{print $1}')
+
+    *para que el script al ejecutar se realize de manera mas legible se puede utilizar saltos de linea \n\n*
+        ejemplo echo -e "\n[+] Esta es tu direccion privada $(ip a | grep ens33 | tail -n 1 | awk '{print $2}' | tr '/' ' ' | awk '{print $1}')\n"
     

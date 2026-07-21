@@ -1,0 +1,234 @@
+Sintaxis básica
+        ping [opciones] destino
+
+            Ejemplos:
+                ping google.com
+                ping 8.8.8.8
+
+        En Linux, por defecto ping continúa enviando paquetes hasta que lo detengas con Ctrl+C.
+
+    La opción -c
+        La opción -c significa:
+                count (cantidad)
+
+        Sirve para indicar cuántos paquetes ICMP quieres enviar.
+
+            Sintaxis:
+                ping -c número destino
+
+            Ejemplo:
+                ping -c 4 google.com
+
+        Salida aproximada:
+
+                PING google.com (142.250.190.14) 56(84) bytes of data.
+                64 bytes from 142.250.190.14: icmp_seq=1 ttl=118 time=30.5 ms
+                64 bytes from 142.250.190.14: icmp_seq=2 ttl=118 time=31.0 ms
+                64 bytes from 142.250.190.14: icmp_seq=3 ttl=118 time=29.9 ms
+                64 bytes from 142.250.190.14: icmp_seq=4 ttl=118 time=30.2 ms
+
+                --- google.com ping statistics ---
+                4 packets transmitted, 4 received, 0% packet loss
+
+                Aquí:
+
+                envió 4 paquetes
+                recibió 4 respuestas
+                terminó automáticamente
+
+    Sin -c:
+
+                ping google.com
+
+        seguirá enviando paquetes indefinidamente.
+
+Opciones más utilizadas de ping
+    1. -c
+        Cantidad de paquetes.
+                ping -c 5 8.8.8.8
+
+    2. -i
+        Intervalo entre paquetes.
+        Por defecto es 1 segundo.
+                ping -i 2 google.com
+
+        envía un paquete cada dos segundos.
+
+        También admite decimales.
+                ping -i 0.5 google.com
+
+        medio segundo.
+
+    3. -W
+        Tiempo máximo de espera por respuesta.
+                ping -W 3 google.com
+
+        Espera 3 segundos antes de considerar que un paquete se perdió.
+
+    4. -w
+        Tiempo total de ejecución.
+                ping -w 10 google.com
+
+        El programa terminará después de 10 segundos.
+
+    5. -s
+        Tamaño del paquete.
+        Por defecto:
+                56 bytes
+
+        Puedes cambiarlo.
+                ping -s 1000 google.com
+
+        Envía paquetes de 1000 bytes.
+
+    6. -t
+        En Linux:
+        Permite establecer el valor TTL (Time To Live).
+                ping -t 64 google.com
+
+        No debe confundirse con Windows.
+        En Windows:
+                ping -t
+
+        significa enviar paquetes continuamente.
+
+    7. -I
+        legir la interfaz de red.
+        Ejemplo:
+                ping -I eth0 google.com
+
+        o
+                ping -I wlan0 google.com
+
+        Muy útil cuando existen varias interfaces.
+
+    8. -4
+        Forzar IPv4.
+                ping -4 google.com
+
+    9. -6
+        Forzar IPv6.
+                ping -6 google.com
+                
+    10. -q
+        Modo silencioso.
+        Solo muestra el resumen.
+                ping -q -c 10 google.com
+
+        Salida:
+                10 packets transmitted
+                10 received
+                0% packet loss
+
+    11. -f
+        Modo flood.
+                sudo ping -f 192.168.1.10
+
+        Envía paquetes tan rápido como sea posible.
+        Se utiliza para:
+                - pruebas de rendimiento
+                - pruebas de estrés
+                - diagnóstico de red
+
+        No debe usarse contra sistemas ajenos, ya que puede saturar la red o parecer un ataque.
+
+    12. -D
+        Mostrar la fecha y hora antes de cada respuesta.
+                ping -D google.com
+
+        Salida:
+                [1712341234.123456] 64 bytes from...
+
+    13. -a
+        Emitir un sonido cuando llega una respuesta.
+                ping -a google.com
+
+    14. -n
+        No resolver nombres DNS.
+        Solo muestra direcciones IP.
+                ping -n google.com
+
+        Es útil para evitar el tiempo que toma la resolución de nombres.
+
+    15. -b
+        Permitir hacer ping a una dirección de broadcast.
+                sudo ping -b 192.168.1.255
+
+        Generalmente requiere privilegios de administrador.
+
+    16. -M
+        Controlar la fragmentación de paquetes (Path MTU Discovery).
+        Ejemplo:
+                ping -M do -s 1472 8.8.8.8
+
+        Opciones comunes:
+                - do: no fragmentar
+                - want: fragmentar si es necesario
+                - dont: permitir fragmentación
+
+        Muy útil para diagnosticar problemas de MTU.
+
+    17. -l
+        Precargar paquetes antes de esperar respuestas.
+                sudo ping -l 10 google.com
+
+    18. -O
+        Informar paquetes perdidos antes de enviar el siguiente.
+                ping -O google.com
+
+    19. -U
+        Mostrar la latencia total percibida por la aplicación (user-to-user latency).
+                ping -U google.com
+
+    20. -v
+        Modo detallado (verbose).
+                ping -v google.com
+
+        Muestra información adicional durante la ejecución.
+
+        Combinaciones útiles
+
+        Enviar 5 paquetes:
+                ping -c 5 google.com
+
+        Enviar un paquete cada 2 segundos:
+                ping -i 2 google.com
+
+        Cinco paquetes de 1500 bytes:
+                ping -c 5 -s 1500 google.com
+
+        Mostrar solo el resumen:
+                ping -q -c 10 google.com
+
+        Forzar IPv6:
+                ping -6 ipv6.google.com
+
+        Elegir una interfaz:
+                ping -I wlan0 8.8.8.8
+
+        No resolver DNS:
+                ping -n 8.8.8.8
+
+        Resumen de las opciones más importantes
+        
+            Opción	    Significado	            Uso principal
+            -c	        Count	                Número de paquetes a enviar
+            -i	        Interval	            Tiempo entre paquetes
+            -W	        Timeout por paquete	    Espera máxima por respuesta
+            -w	        Deadline	            Tiempo total de ejecución
+            -s	        Size	                Tamaño de los datos del paquete
+            -t	        TTL	                    Establecer el Time To Live
+            -I	        Interface	            Seleccionar la interfaz de red
+            -4	        IPv4	                Forzar el uso de IPv4
+            -6	        IPv6	                Forzar el uso de IPv6
+            -q	        Quiet	                Mostrar solo el resumen
+            -D	        Timestamp	            Mostrar marca de tiempo en cada respuesta
+            -a	        Audible	                Emitir un sonido al recibir respuesta
+            -n	        Numeric	                No resolver nombres DNS
+            -b	        Broadcast	            Permitir ping a direcciones de broadcast
+            -f	        Flood	                Enviar paquetes lo más rápido posible
+            -M	        PMTU	                Controlar la fragmentación (MTU)
+            -l	        Preload	                Enviar varios paquetes inicialmente
+            -O	        Outstanding	            Informar respuestas pendientes o perdidas
+            -U	        User latency	        Medir latencia percibida por la aplicación
+            -v	        Verbose	                Mostrar información detallada
