@@ -1,0 +1,48 @@
+entrando con overthewire
+
+ssh bandit0@bandit.labs.overthewire.org -p 2220 (esta es la forma en cada uno de los niveles de este laboratorio, cambiando cada nivel el numero que nos toque desafiar)
+
+para poder entrar al nivel 0 e iniciar este laboratorio la contraseña es: "bandit0"
+en el nivel 0 para avanzar al nivel 1 la contraseña es: "6y2kwnwK6grgvwvpvLaa2T1cpFEKOhNR"
+        - para encontrar la contraseña bandit1 nos menciona que la contraseña esta en un archivo de nombre readme, para lo cual podemos aplicar el siguiente comando.
+                cat readme y seguidamente nos proporcionara la contraseña para el siguiente nivel.
+
+en el nivel 1 para avanzar al nivel 2 la contraseña es: "PK8fYLZg2hnHSz83plBL1iEPKdD3QToB"
+        - para encontrar la contraseña, bandit1 nos menciona que la contraseña se encuentra en un archivo de nombre -, para lo cual podemos aplicar los siguientes comandos.
+                cat /home/bandit1/-
+                cat ./-
+                echo $(pwd)/-
+                    /home/bandit1/-
+                cat $(pwd)/- 
+                grep -r "\w" 2>/dev/null
+                grep -r "\w" 2>/dev/null | awk '{print $2}' FS=":" | head -n 6
+                grep -r "\w" 2>/dev/null | cut -d ':' -f 2 | head -n 6
+                grep -r "\w" 2>/dev/null | tr ':' ' ' | awk '{print $2}' | head -n 6
+                echo -e [+] la contraseña es $(grep -r "\w" 2>/dev/null | tr ':' ' ' | awk '{print $2}' | head -n 6)
+
+en el nivel 2 para avanzar al nivel 3 la contraseña es: "7ZZ2LFrykP2zEyvBl4m3clcL7tGYJPME"
+        -para encontrar la contraseña, bandit2 nos indica que la contraseña esta en un archivo de nombre --spaces in this filename--, para lo cual ejecutaremos los siguiente comandos.
+                cat /home/bandit2/--s*
+
+en el nivel 3 para avanzar al nivel 4 la contraseña es: "xzTXq1rDJQVVAzdv5cHq1TQytTWufAMq"
+        -para encontrar la contraseña, bandit3 nos indica que la contraseña esta en un archivo oculto del directorio inhere, para encontrar ejecutaremos los siguientes comandos.
+                ls 
+                cd inhere
+                ls -la
+                cat ...Hiding-From-You
+                cat ...H*
+                cat ..*
+                find . -type f | grep "...Hiding" | xargs cat
+                find . -type f | grep "...Hiding-From-You" | xargs cat
+                find . -type f | grep "...H" | xargs cat
+                find . -type f | grep "H" | xargs cat
+                find . -type f | grep -vE "bashrc|profile|logout" | xargs cat
+
+en el nivel 4 para avanzar al nivel 5 la contraseña es: "6C7h9GD8M6ai5nr7wo1RonrzFjj9yIrG"
+        -para encontrar la contraseña, bandit4 nos menciona que la contraseña esta almacenada en el unico archivo legible del directorio inhere.
+                find . -type f | grep "\-file" | xargs file
+                cat $(pwd)/-file07
+
+en el nivel 5 para avanzar al nivel 6 la contraseña es: 
+        -para encontrar la contraseña, bandit5 nos indica que la contraseña esta almacenada en algun lugar, bajo el directorio inhere que tiene las siguientes propiedades: es humanamente legible, no es ejecutable y pesa 1033 bytes.
+        
