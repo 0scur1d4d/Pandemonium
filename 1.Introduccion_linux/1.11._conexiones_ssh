@@ -43,6 +43,20 @@ en el nivel 4 para avanzar al nivel 5 la contraseña es: "6C7h9GD8M6ai5nr7wo1Ron
                 find . -type f | grep "\-file" | xargs file
                 cat $(pwd)/-file07
 
-en el nivel 5 para avanzar al nivel 6 la contraseña es: 
+en el nivel 5 para avanzar al nivel 6 la contraseña es: "pXa26xhMWaC2SvDotA4r9EgZkulOeSBW"
         -para encontrar la contraseña, bandit5 nos indica que la contraseña esta almacenada en algun lugar, bajo el directorio inhere que tiene las siguientes propiedades: es humanamente legible, no es ejecutable y pesa 1033 bytes.
-        
+                find . -type f ! -executable -size 1033c
+                find . -type f ! -executable -size 1033c | xargs file
+                        ./inhere/maybehere07/.file2: ASCII text, with very long lines (1000)
+                find . -type f ! -executable -size 1033c | xargs cat
+                find . -type f ! -executable -size 1033c | xargs cat | head -n 1
+                find . -type f ! -executable -size 1033c | xargs cat | xargs
+
+BUSQUEDA DE ARCHIVOS
+en el nivel 6 para avanzar al nivel 7 la contraseña es: "Bmnnvf82KzQlfxgAI2d1zYbr1u9pr3E3"
+        -para encontrar la contraseña, bandit 6 nos indica que la contraseñaesta almacenada en el usuario bandit7 y grupo bandit6 con un peso de 33c
+                find / -user bandit7 -group bandit6 -size 33c 2>/dev/null | xargs cat
+
+Métodos de filtrado de datos [1-2]
+en el nivel 7 para avanzar al nivel 8 la contraseña es: ""
+        -para encontrar la contraseña, bandit 7 nos indica que la contraseña esta almacenada en un archivo de nombre data.txt cerca de la palabra Millionth
